@@ -3,5 +3,5 @@ scikit-learn
 scikit-image
 numpy
 pillow
-opencv-python
+opencv-python-headless
 joblib
