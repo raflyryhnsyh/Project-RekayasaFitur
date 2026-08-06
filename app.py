@@ -9,10 +9,20 @@ from io import BytesIO
 
 # Compatibility fix for loading Gradient Boosting model across scikit-learn versions
 try:
-    import sklearn._loss
-    sys.modules['_loss'] = sklearn._loss
-except (ImportError, AttributeError):
+    import sklearn
+    try:
+        import sklearn._loss
+        sys.modules['_loss'] = sklearn._loss
+    except Exception:
+        pass
+    try:
+        import sklearn.ensemble._gb_losses
+        sys.modules['_loss'] = sklearn.ensemble._gb_losses
+    except Exception:
+        pass
+except Exception:
     pass
+
 
 
 # Try importing skimage hog
