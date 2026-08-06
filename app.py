@@ -9,19 +9,14 @@ from io import BytesIO
 
 # Compatibility fix for loading Gradient Boosting model across scikit-learn versions
 try:
-    import sklearn
-    try:
-        import sklearn._loss
-        sys.modules['_loss'] = sklearn._loss
-    except Exception:
-        pass
-    try:
-        import sklearn.ensemble._gb_losses
-        sys.modules['_loss'] = sklearn.ensemble._gb_losses
-    except Exception:
-        pass
+    import sklearn._loss
+    sys.modules['_loss'] = sklearn._loss
+    for name in dir(sklearn._loss):
+        if name.startswith('Half') or 'Error' in name or 'Loss' in name:
+            setattr(sklearn._loss, f'Cy{name}', getattr(sklearn._loss, name))
 except Exception:
     pass
+
 
 
 
