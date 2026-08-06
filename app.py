@@ -1,3 +1,4 @@
+import sys
 import streamlit as st
 import joblib
 import numpy as np
@@ -5,6 +6,14 @@ from PIL import Image
 import os
 import cv2
 from io import BytesIO
+
+# Compatibility fix for loading Gradient Boosting model across scikit-learn versions
+try:
+    import sklearn._loss
+    sys.modules['_loss'] = sklearn._loss
+except (ImportError, AttributeError):
+    pass
+
 
 # Try importing skimage hog
 try:
